@@ -11,7 +11,7 @@ const Navbar = () => {
 
   return (
     <header className="fixed top-0 z-50 w-full p-4">
-      <div className="flex items-center container mx-auto justify-between px-4 py-6 border border-gray-500 rounded-2xl mt-4 bg-transparent backdrop-blur-md">
+      <div className="flex items-center container mx-auto justify-between p-4 border border-gray-500 rounded-2xl mt-4 bg-transparent backdrop-blur-md">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
           <Image src="/icon.png" alt="logo icon" height={50} width={50} />

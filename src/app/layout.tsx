@@ -3,6 +3,7 @@ import { Rubik } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import QueryProvider from "@/components/provider/QueryProvider";
 
 const rubik = Rubik({
   subsets: ["latin"],
@@ -26,9 +27,11 @@ export default function RootLayout({
       <body
         className={`${rubik.className} antialiased min-h-screen flex flex-col bg-gray-950/90 text-white`}
       >
-        <Navbar />
-        <main className="flex-grow"> {children}</main>
-        <Footer />
+        <QueryProvider>
+          <Navbar />
+          <main className="flex-grow"> {children}</main>
+          <Footer />
+        </QueryProvider>
       </body>
     </html>
   );
