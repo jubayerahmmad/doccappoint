@@ -13,13 +13,13 @@ const Navbar = () => {
     <header className="fixed top-0 z-50 w-full">
       <div className="flex items-center container mx-auto justify-between px-4 py-6 border border-gray-500 rounded-2xl mt-4 bg-transparent backdrop-blur-md">
         {/* Logo */}
-        <div className="flex items-center space-x-2">
+        <Link href="/" className="flex items-center space-x-2">
           <Image src="/icon.png" alt="logo icon" height={50} width={50} />
 
           <span className="text-lg lg:text-2xl font-bold text-white">
             DocAppoint
           </span>
-        </div>
+        </Link>
         {/* Desktop */}
         <div className="hidden md:flex items-center space-x-4">
           <Link href="/patient/dashboard">
