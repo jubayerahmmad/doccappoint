@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Doctor Appointment Management System (Frontend)
 
-## Getting Started
+A modern, responsive Doctor Appointment Management System built with **Next.js**, **TypeScript**, **Tailwind CSS**, and **TanStack Query**.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+### Authentication & Registration
+
+- **Login** with role selection (Doctor / Patient)
+- **Registration**
+  - Patient: name, email, password, optional photo
+  - Doctor: name, email, password, specialization, optional photo
+- Real-time validation with **Zod**
+
+### Patient Dashboard
+
+- 📋 **Doctor Directory**
+  - Doctor cards with name, specialization, and photo
+  - **Search by name**
+  - **Filter by specialization**
+  - **Pagination**
+- 📅 **Book Appointment**
+  - Booking modal UI with date picker (functionality WIP)
+- 📖 **My Appointments**
+  - View all scheduled appointments
+  - Filter by status (Pending, Completed, Cancelled)
+  - Cancel pending appointments with confirmation
+
+### Doctor Dashboard
+
+- 📋 **Appointment Management**
+  - Paginated list of patient appointments
+  - Filter by date and status
+- ✅ **Update Status**
+  - Mark appointments as Completed or Cancelled
+  - Real-time UI update with confirmation dialogs
+
+---
+
+## 🛠 Tech Stack
+
+- **Framework**: Next.js (React + TypeScript)
+- **Styling**: Tailwind CSS, shadcn/ui components
+- **Data Fetching**: TanStack Query
+- **Forms & Validation**: React Hook Form + Zod
+- **HTTP Client**: Axios
+
+---
+
+## ⚙️ Installation & Setup
+
+### Prerequisites
+
+- Node.js (v18+)
+- npm or yarn
+
+### Steps
+
+1. Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+   git clone https://github.com/jubayerahmmad/doccappoint.git
+
+   cd doccappointment
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+   npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Start the dev server:
 
-## Learn More
+```bash
+   npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Visit the app at:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+http://localhost:3000
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
