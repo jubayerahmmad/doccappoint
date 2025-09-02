@@ -95,12 +95,18 @@ const PatientDashboard = () => {
       const data = await axios(
         `https://appointment-manager-node.onrender.com/api/v1/doctors?page=${currentPage}&limit=9&search=${searchQuery}&specialization=${selectedSpecialization}`
       );
-      return data?.data?.data;
+      console.log(data);
+      return data;
     },
   });
 
   const specializations = specializationsData || [];
-  const doctors = doctorsData || [];
+  const doctors = doctorsData?.data?.data || [];
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil((doctorsData?.data?.total || 0) / 9)
+  );
 
   // console.log(doctors);
 
@@ -168,12 +174,13 @@ const PatientDashboard = () => {
             </div>
           </div>
         </div>
+
         {/* Doctors Grid */}
         {doctorsLoading ? (
           <div className="flex justify-center items-center py-12">
             <Loader />
           </div>
-        ) : doctors.length === 0 ? (
+        ) : !doctors.length ? (
           <Card className="text-center py-12 bg-gray-900/80 border border-gray-500/40 text-white">
             <CardContent>
               <User className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
@@ -193,7 +200,32 @@ const PatientDashboard = () => {
               />
             ))}
           </div>
-        )}{" "}
+        )}
+
+        {/* Pagination */}
+        {totalPages && totalPages >= 1 && doctors?.length >= 9 && (
+          <div className="flex justify-center mt-8">
+            <div className="flex items-center space-x-2">
+              <Button
+                size="sm"
+                onClick={() => setCurrentPage((p) => p - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              <span className="text-sm text-muted-foreground px-4">
+                Page {currentPage} of {totalPages}
+              </span>
+              <Button
+                size="sm"
+                onClick={() => setCurrentPage((p) => p + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

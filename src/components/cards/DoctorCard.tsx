@@ -19,7 +19,7 @@ const DoctorCard = ({ doctor, handleBookAppointment }: Props) => {
   return (
     <Card
       key={doctor.id}
-      className="bg-gray-900/80 border border-gray-700/70 text-white group"
+      className="bg-gray-900/10 border border-gray-700/70 text-white group"
     >
       <CardHeader className="pb-4">
         <div className="flex items-center space-x-4">
