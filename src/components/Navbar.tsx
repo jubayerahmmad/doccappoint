@@ -10,7 +10,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 z-50 w-full">
+    <header className="fixed top-0 z-50 w-full p-4">
       <div className="flex items-center container mx-auto justify-between px-4 py-6 border border-gray-500 rounded-2xl mt-4 bg-transparent backdrop-blur-md">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
@@ -21,7 +21,7 @@ const Navbar = () => {
           </span>
         </Link>
         {/* Desktop */}
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-2">
           <Link href="/patient/dashboard">
             <Button
               size="sm"
@@ -42,7 +42,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-2">
           <Link href="/login">
             <Button
               size="sm"

@@ -48,8 +48,8 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="flex-1 flex items-center justify-center pt-24">
-        <div className="w-full max-w-md space-y-6  border border-white/40 p-6 rounded-2xl">
+      <div className="flex-1 flex items-center justify-center p-4 pt-40 md:pt-28">
+        <div className="w-full max-w-lg space-y-6  border border-white/40 p-6 rounded-2xl">
           {/* Header */}
           <div className="text-center">
             <h1 className="text-3xl font-bold text-white mb-2">
@@ -65,7 +65,7 @@ const Login = () => {
             <Button
               type="button"
               variant={selectedRole === "PATIENT" ? "default" : "secondary"}
-              className={`h-16 flex flex-col gap-1 transition-smooth ${
+              className={`h-16 flex flex-col gap-1 ${
                 selectedRole === "PATIENT"
                   ? "bg-white text-primary hover:bg-white"
                   : "bg-white/10 text-white"
@@ -78,7 +78,7 @@ const Login = () => {
             <Button
               type="button"
               variant={selectedRole === "DOCTOR" ? "default" : "secondary"}
-              className={`h-16 flex flex-col gap-1 transition-smooth ${
+              className={`h-16 flex flex-col gap-1 ${
                 selectedRole === "DOCTOR"
                   ? "bg-white text-primary hover:bg-white"
                   : "bg-white/10 text-white"
