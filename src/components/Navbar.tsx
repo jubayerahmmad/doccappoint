@@ -28,7 +28,7 @@ const Navbar = () => {
               variant="ghost"
               className="text-white hover:bg-white/10 hover:text-gray-300"
             >
-              Dashboard
+              Patient Dashboard
             </Button>
           </Link>
           <Link href="/doctor/dashboard">
@@ -37,7 +37,7 @@ const Navbar = () => {
               variant="ghost"
               className="text-white hover:bg-white/10 hover:text-gray-300"
             >
-              Dashboard
+              Doctor Dashboard
             </Button>
           </Link>
         </div>
@@ -87,7 +87,16 @@ const Navbar = () => {
                 variant="ghost"
                 className="text-white hover:bg-white/10 hover:text-gray-300"
               >
-                Dashboard
+                Patient Dashboard
+              </Button>
+            </Link>
+            <Link href="/patient/dashboard">
+              <Button
+                size="sm"
+                variant="ghost"
+                className="text-white hover:bg-white/10 hover:text-gray-300"
+              >
+                Doctor Dashboard
               </Button>
             </Link>
             <Link

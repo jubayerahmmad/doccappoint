@@ -59,9 +59,11 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import Image from "next/image";
 import Loader from "@/components/Loader";
 import DoctorCard from "@/components/cards/DoctorCard";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Pagination from "@/components/Pagination";
 
 const appointmentSchema = z.object({
   date: z.date({
@@ -76,6 +78,10 @@ const PatientDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+
+  const form = useForm<AppointmentForm>({
+    resolver: zodResolver(appointmentSchema),
+  });
 
   // Fetch specializations
   const { data: specializationsData } = useQuery({
@@ -116,6 +122,8 @@ const PatientDashboard = () => {
 
   const handleBookAppointment = (doctor: Doctor) => {
     console.log(doctor);
+    setSelectedDoctor(doctor);
+    setIsBookingOpen(true);
   };
 
   return (
@@ -203,29 +211,95 @@ const PatientDashboard = () => {
         )}
 
         {/* Pagination */}
-        {totalPages && totalPages >= 1 && doctors?.length >= 9 && (
-          <div className="flex justify-center mt-8">
-            <div className="flex items-center space-x-2">
-              <Button
-                size="sm"
-                onClick={() => setCurrentPage((p) => p - 1)}
-                disabled={currentPage === 1}
-              >
-                Previous
-              </Button>
-              <span className="text-sm text-muted-foreground px-4">
-                Page {currentPage} of {totalPages}
-              </span>
-              <Button
-                size="sm"
-                onClick={() => setCurrentPage((p) => p + 1)}
-                disabled={currentPage === totalPages}
-              >
-                Next
-              </Button>
-            </div>
-          </div>
+        {totalPages && totalPages >= 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+          />
         )}
+
+        {/* Book Appointment Dialog */}
+        <Dialog open={isBookingOpen} onOpenChange={setIsBookingOpen}>
+          <DialogContent className="sm:max-w-[425px] text-black">
+            <DialogHeader>
+              <DialogTitle>Book Appointment</DialogTitle>
+              <DialogDescription>
+                Schedule an appointment with Dr. {selectedDoctor?.name}
+              </DialogDescription>
+            </DialogHeader>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
+              >
+                <FormField
+                  control={form.control}
+                  name="date"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Select Date</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick an appointment date</span>
+                              )}
+                              <Calendar className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <CalendarComponent
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date < new Date() || date < new Date("1900-01-01")
+                            }
+                            initialFocus
+                            className="p-3 pointer-events-auto"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex justify-end space-x-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsBookingOpen(false)}
+                    className="text-black"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    // disabled={bookAppointmentMutation.isPending}
+                  >
+                    Book Appointment
+                    {/* {bookAppointmentMutation.isPending ? (
+                    <LoadingSpinner />
+                  ) : (
+                    'Book Appointment'
+                  )} */}
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
