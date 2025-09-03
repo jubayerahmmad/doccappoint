@@ -24,6 +24,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import axiosInstance from "@/lib/axiosInstance";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type LoginForm = z.infer<typeof loginSchema>;
 
@@ -31,6 +35,8 @@ const Login = () => {
   const [selectedRole, setSelectedRole] = useState<"DOCTOR" | "PATIENT">(
     "PATIENT"
   );
+
+  const router = useRouter();
 
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -41,9 +47,31 @@ const Login = () => {
     },
   });
 
+  // login functionality(Mutations using tanstack)
+  const loginMutation = useMutation({
+    mutationFn: async (payload: LoginForm) => {
+      const res = await axiosInstance.post("/auth/login", payload);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      localStorage.setItem("token", data?.data?.token);
+      localStorage.setItem("user", JSON.stringify(data?.data?.user));
+
+      toast.success("Login successful");
+      router.push("/");
+      console.log("Logged in:", data?.data?.user);
+    },
+    onError: () => {
+      toast.error("Login failed!");
+      console.log("Login request failed");
+    },
+  });
+
+  // Submit handler
   const onSubmit = (data: LoginForm) => {
     const formData = { ...data, role: selectedRole };
-    console.log(formData);
+    console.log("Login Payload:", formData);
+    loginMutation.mutate(formData);
   };
 
   return (

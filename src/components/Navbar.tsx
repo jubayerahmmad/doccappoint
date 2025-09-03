@@ -5,9 +5,12 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import { useAuth } from "@/hooks/useAuth";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const user = useAuth();
 
   return (
     <header className="fixed top-0 z-50 w-full p-4">
@@ -21,48 +24,50 @@ const Navbar = () => {
           </span>
         </Link>
         {/* Desktop */}
-        <div className="hidden md:flex items-center space-x-2">
-          <Link href="/patient/dashboard">
-            <Button
-              size="sm"
-              variant="ghost"
-              className="text-white hover:bg-white/10 hover:text-gray-300"
-            >
-              Patient Dashboard
-            </Button>
-          </Link>
-          <Link href="/doctor/dashboard">
-            <Button
-              size="sm"
-              variant="ghost"
-              className="text-white hover:bg-white/10 hover:text-gray-300"
-            >
-              Doctor Dashboard
-            </Button>
-          </Link>
-        </div>
 
-        <div className="hidden md:flex items-center space-x-2">
-          <Link href="/login">
-            <Button
-              size="sm"
-              variant="ghost"
-              className="text-white hover:bg-white/10 hover:text-gray-300"
+        {user && (
+          <div className="hidden md:flex items-center space-x-2">
+            <Link
+              href={
+                user.role === "DOCTOR"
+                  ? "/doctor/dashboard"
+                  : "/patient/dashboard"
+              }
             >
-              <LogIn className="h-4 w-4 mr-2" />
-              Sign In
-            </Button>
-          </Link>
-          <Link href="/register">
-            <Button
-              size="sm"
-              className="bg-white text-primary hover:bg-white/90 shadow-medium"
-            >
-              <UserPlus className="h-4 w-4 mr-2" />
-              Get Started
-            </Button>
-          </Link>
-        </div>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="text-white hover:bg-white/10 hover:text-gray-300"
+              >
+                Dashboard
+              </Button>
+            </Link>
+          </div>
+        )}
+
+        {!user && (
+          <div className="hidden md:flex items-center space-x-2">
+            <Link href="/login">
+              <Button
+                size="sm"
+                variant="ghost"
+                className="text-white hover:bg-white/10 hover:text-gray-300"
+              >
+                <LogIn className="h-4 w-4 mr-2" />
+                Sign In
+              </Button>
+            </Link>
+            <Link href="/register">
+              <Button
+                size="sm"
+                className="bg-white text-primary hover:bg-white/90 shadow-medium"
+              >
+                <UserPlus className="h-4 w-4 mr-2" />
+                Get Started
+              </Button>
+            </Link>
+          </div>
+        )}
 
         {/* Mobile */}
         <button
@@ -77,45 +82,34 @@ const Navbar = () => {
         </button>
       </div>
       {isMenuOpen && (
-        <div
-          className={`md:hidden pb-4 px-4 bg-transparent backdrop-blur-md mt-4 border-t border-white/20`}
-        >
-          <div className="flex flex-col space-y-2 pt-4">
-            <Link href="/patient/dashboard">
-              <Button
-                size="sm"
-                variant="ghost"
-                className="text-white hover:bg-white/10 hover:text-gray-300"
-              >
-                Patient Dashboard
-              </Button>
-            </Link>
-            <Link href="/patient/dashboard">
-              <Button
-                size="sm"
-                variant="ghost"
-                className="text-white hover:bg-white/10 hover:text-gray-300"
-              >
-                Doctor Dashboard
-              </Button>
-            </Link>
+        <div className="md:hidden bg-black bg-opacity-80 backdrop-blur-lg p-4 space-y-4 rounded-xl mt-2 mx-4">
+          {user && (
             <Link
-              href="/login"
-              onClick={() => setIsMenuOpen(false)}
-              className={`flex items-center px-4 py-2 rounded-lg bg-black text-white`}
+              href={
+                user.role === "DOCTOR"
+                  ? "/doctor/dashboard"
+                  : "/patient/dashboard"
+              }
+              className="block text-white"
             >
-              <LogIn className="h-4 w-4 mr-2" />
-              Sign In
+              Dashboard
             </Link>
-            <Link
-              href="/register"
-              onClick={() => setIsMenuOpen(false)}
-              className={`flex items-center px-4 py-2 rounded-lg bg-white text-primary`}
-            >
-              <UserPlus className="h-4 w-4 mr-2" />
-              Get Started
-            </Link>
-          </div>
+          )}
+
+          {!user && (
+            <>
+              <Link href="/login">
+                <Button variant="ghost" className="w-full text-white">
+                  <LogIn className="mr-2 h-4 w-4" /> Sign In
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white">
+                  <UserPlus className="mr-2 h-4 w-4" /> Get Started
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
       )}
     </header>

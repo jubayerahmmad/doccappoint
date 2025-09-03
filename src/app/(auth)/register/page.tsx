@@ -78,14 +78,13 @@ const Register = () => {
     },
   });
 
-  // Mutations
+  // register functionality(Mutations using tanstack)
   const patientRegisterMutation = useMutation({
     mutationFn: async (payload: PatientForm) => {
       const res = await axiosInstance.post("/auth/register/patient", payload);
       return res.data;
     },
     onSuccess: () => {
-      console.log("Reg Done");
       router.push("/patient/dashboard");
       toast.success("Patient Registration Successful");
     },
@@ -101,7 +100,6 @@ const Register = () => {
       return res.data;
     },
     onSuccess: () => {
-      console.log("Reg Done");
       router.push("/doctor/dashboard");
       toast.success("Doctor Registration Successful");
     },
@@ -124,7 +122,7 @@ const Register = () => {
     <div className="min-h-screen bg-gradient-primary flex flex-col">
       <div className="flex-1 flex items-center justify-center p-4 pt-40">
         <div className="w-full max-w-lg space-y-6 border border-white/40 p-6 rounded-2xl">
-          {/* Header */}
+          {/* Header part*/}
           <div className="text-center">
             <h1 className="text-3xl font-bold text-white mb-2">
               Join DocAppoint

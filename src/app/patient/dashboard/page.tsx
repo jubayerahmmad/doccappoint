@@ -46,6 +46,7 @@ import DoctorCard from "@/components/cards/DoctorCard";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Pagination from "@/components/Pagination";
+import { useAuth } from "@/hooks/useAuth";
 
 const appointmentSchema = z.object({
   date: z.date({
@@ -60,6 +61,7 @@ const PatientDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const user = useAuth();
 
   const form = useForm<AppointmentForm>({
     resolver: zodResolver(appointmentSchema),
@@ -115,9 +117,7 @@ const PatientDashboard = () => {
         <div className="container mx-auto p-4 text-white">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold">
-                Welcome back, {"user?.name"}
-              </h1>
+              <h1 className="text-2xl font-bold">Welcome back, {user?.name}</h1>
             </div>
             <div className="flex items-center space-x-4">
               <Link href="/patient/appointments">

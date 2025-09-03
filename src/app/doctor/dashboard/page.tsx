@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAuth } from "@/hooks/useAuth";
 
 import { Select } from "@radix-ui/react-select";
 import { useQuery } from "@tanstack/react-query";
@@ -21,6 +22,7 @@ const DoctorDashboard = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const user = useAuth();
 
   // Fetch appointments
   // const { data: appointmentsData, isLoading } = useQuery({
@@ -48,7 +50,7 @@ const DoctorDashboard = () => {
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="flex items-center space-x-4">
               <h1 className="text-2xl font-bold">
-                Welcome back, DR. {"user?.name"}
+                Welcome back, DR. {user?.name}
               </h1>
             </div>
             {/* Filters */}
