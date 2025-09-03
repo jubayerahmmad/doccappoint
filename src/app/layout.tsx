@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import QueryProvider from "@/components/provider/QueryProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const rubik = Rubik({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-grow"> {children}</main>
           <Footer />
+          <Toaster />
         </QueryProvider>
       </body>
     </html>

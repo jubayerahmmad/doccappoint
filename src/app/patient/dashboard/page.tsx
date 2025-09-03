@@ -1,22 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import z from "zod";
-// import Banner from "./_component/Banner";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { useState } from "react";
 import { Doctor } from "@/types/types";
-import {
-  Badge,
-  Calendar,
-  CalendarCheck,
-  Filter,
-  Heart,
-  LogOut,
-  MapPin,
-  Search,
-  User,
-} from "lucide-react";
+import { Calendar, CalendarCheck, Search, User } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,14 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent } from "@/components/ui/card";
+
 import {
   Dialog,
   DialogContent,
@@ -101,7 +83,7 @@ const PatientDashboard = () => {
       const data = await axios(
         `https://appointment-manager-node.onrender.com/api/v1/doctors?page=${currentPage}&limit=9&search=${searchQuery}&specialization=${selectedSpecialization}`
       );
-      console.log(data);
+      // console.log(data);
       return data;
     },
   });
@@ -149,6 +131,8 @@ const PatientDashboard = () => {
         </div>
       </header>
 
+      <h1 className="text-4xl font-bold text-center">View All Doctors List</h1>
+
       <div className="container mx-auto p-4">
         {/* Search and Filters */}
         <div className="mb-8">
@@ -159,9 +143,10 @@ const PatientDashboard = () => {
                 placeholder="Search doctors by name or specialization..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 border border-gray-600/70"
+                className="pl-10 border border-gray-600/70 text-white placeholder:text-gray-300"
               />
             </div>
+
             <div className="flex items-center gap-2">
               <Select
                 value={selectedSpecialization}
@@ -284,17 +269,7 @@ const PatientDashboard = () => {
                   >
                     Cancel
                   </Button>
-                  <Button
-                    type="submit"
-                    // disabled={bookAppointmentMutation.isPending}
-                  >
-                    Book Appointment
-                    {/* {bookAppointmentMutation.isPending ? (
-                    <LoadingSpinner />
-                  ) : (
-                    'Book Appointment'
-                  )} */}
-                  </Button>
+                  <Button type="submit">Book Appointment</Button>
                 </div>
               </form>
             </Form>

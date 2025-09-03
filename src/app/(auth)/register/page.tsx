@@ -32,9 +32,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { User, UserCheck, UserPlus } from "lucide-react";
+import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
+import axiosInstance from "@/lib/axiosInstance";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
   const [activeTab, setActiveTab] = useState("patient");
+
+  const router = useRouter();
 
   const specializations = [
     "Cardiology",
@@ -72,12 +78,46 @@ const Register = () => {
     },
   });
 
+  // Mutations
+  const patientRegisterMutation = useMutation({
+    mutationFn: async (payload: PatientForm) => {
+      const res = await axiosInstance.post("/auth/register/patient", payload);
+      return res.data;
+    },
+    onSuccess: () => {
+      console.log("Reg Done");
+      router.push("/patient/dashboard");
+      toast.success("Patient Registration Successful");
+    },
+    onError: () => {
+      toast.error("Patient registration failed!");
+      console.error("Patient registration failed");
+    },
+  });
+
+  const doctorRegisterMutation = useMutation({
+    mutationFn: async (payload: DoctorForm) => {
+      const res = await axiosInstance.post("/auth/register/doctor", payload);
+      return res.data;
+    },
+    onSuccess: () => {
+      console.log("Reg Done");
+      router.push("/doctor/dashboard");
+      toast.success("Doctor Registration Successful");
+    },
+    onError: () => {
+      toast.error("Doctor registration failed!");
+      console.error("Doctor registration failed");
+    },
+  });
+
+  // Submit handlers
   const onPatientSubmit = (data: PatientForm) => {
-    console.log(data);
+    patientRegisterMutation.mutate(data);
   };
 
   const onDoctorSubmit = (data: DoctorForm) => {
-    console.log(data);
+    doctorRegisterMutation.mutate(data);
   };
 
   return (
@@ -196,21 +236,9 @@ const Register = () => {
                           </FormItem>
                         )}
                       />
-                      <Button
-                        type="submit"
-                        className="w-full"
-                        // disabled={patientMutation.isPending}
-                      >
+                      <Button type="submit" className="w-full">
                         <UserPlus className="mr-2 h-4 w-4" />
                         Create Patient Account
-                        {/* {patientMutation.isPending ? (
-                          <LoadingSpinner />
-                        ) : (
-                          <>
-                            <UserPlus className="mr-2 h-4 w-4" />
-                            Create Patient Account
-                          </>
-                        )} */}
                       </Button>
                     </form>
                   </Form>
@@ -320,23 +348,9 @@ const Register = () => {
                           </FormItem>
                         )}
                       />
-                      <Button
-                        type="submit"
-                        className="w-full"
-                        // disabled={doctorMutation.isPending}
-                      >
+                      <Button type="submit" className="w-full">
                         <UserPlus className="mr-2 h-4 w-4" />
                         Create Doctor Account
-                        {/* {doctorMutation.isPending ? (
-                        <>
-                        <p>Loading...</p>
-                        </>
-                      ) : (
-                        <>
-                          <UserPlus className="mr-2 h-4 w-4" />
-                          Create Doctor Account
-                        </>
-                      )} */}
                       </Button>
                     </form>
                   </Form>

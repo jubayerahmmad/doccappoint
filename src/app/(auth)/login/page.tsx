@@ -138,22 +138,8 @@ const Login = () => {
                       </FormItem>
                     )}
                   />
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    // disabled={loginMutation.isPending}
-                  >
+                  <Button type="submit" className="w-full">
                     Sign In
-                    {/* {loginMutation.isPending ? (
-                      <>
-                        <p>Loading..</p>
-                      </>
-                    ) : (
-                      <>
-                        <LogIn className="mr-2 h-4 w-4" />
-                        Sign In
-                      </>
-                    )} */}
                   </Button>
                 </form>
               </Form>
