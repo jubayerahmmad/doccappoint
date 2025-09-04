@@ -9,6 +9,7 @@ import {
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Calendar, MapPin } from "lucide-react";
+import { Badge } from "../ui/badge";
 
 interface Props {
   doctor: Doctor;
@@ -45,6 +46,9 @@ const DoctorCard = ({ doctor, handleBookAppointment }: Props) => {
       </CardHeader>
       <CardContent className="pt-0">
         <div className="flex items-center justify-between">
+          <Badge variant="outline" className="text-xs text-white">
+            {doctor.specialization}
+          </Badge>
           <Button onClick={() => handleBookAppointment(doctor)} size="sm">
             <Calendar className="h-4 w-4 mr-1" />
             Book Now

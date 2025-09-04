@@ -62,7 +62,11 @@ const Navbar = () => {
                 Dashboard
               </Button>
             </Link>
-            <Button onClick={handleLogout} className=" text-white">
+            <Button
+              onClick={handleLogout}
+              variant={"outline"}
+              className="text-black"
+            >
               <LogOut className="mr-2 h-4 w-4" /> Log Out
             </Button>
           </div>
@@ -118,7 +122,11 @@ const Navbar = () => {
               >
                 Dashboard
               </Link>
-              <Button onClick={handleLogout} className="text-white">
+              <Button
+                onClick={handleLogout}
+                variant={"outline"}
+                className="text-black"
+              >
                 <LogOut className="mr-2 h-4 w-4" /> Log Out
               </Button>
             </>

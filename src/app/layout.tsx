@@ -26,7 +26,7 @@ export default function RootLayout({
         <link rel="icon" href="/icon.png" sizes="any" />
       </head>
       <body
-        className={`${rubik.className} antialiased min-h-screen flex flex-col bg-gray-950/90 text-white`}
+        className={`${rubik.className} antialiased min-h-screen flex flex-col bg-gray-950/95 text-white`}
       >
         <QueryProvider>
           <Navbar />

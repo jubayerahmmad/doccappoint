@@ -156,7 +156,10 @@ const PatientDashboard = () => {
             </div>
             <div className="flex items-center space-x-4">
               <Link href="/patient/appointments">
-                <Button className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  className="flex text-black items-center gap-2"
+                >
                   <CalendarCheck className="h-4 w-4" />
                   My Appointments
                 </Button>
