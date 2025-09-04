@@ -85,7 +85,7 @@ const Register = () => {
       return res.data;
     },
     onSuccess: () => {
-      router.push("/patient/dashboard");
+      router.push("/login");
       toast.success("Patient Registration Successful");
     },
     onError: () => {
@@ -100,7 +100,7 @@ const Register = () => {
       return res.data;
     },
     onSuccess: () => {
-      router.push("/doctor/dashboard");
+      router.push("/login");
       toast.success("Doctor Registration Successful");
     },
     onError: () => {

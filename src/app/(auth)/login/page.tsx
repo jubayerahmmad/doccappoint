@@ -59,7 +59,7 @@ const Login = () => {
 
       toast.success("Login successful");
       router.push("/");
-      console.log("Logged in:", data?.data?.user);
+      router.refresh();
     },
     onError: () => {
       toast.error("Login failed!");
@@ -70,7 +70,6 @@ const Login = () => {
   // Submit handler
   const onSubmit = (data: LoginForm) => {
     const formData = { ...data, role: selectedRole };
-    console.log("Login Payload:", formData);
     loginMutation.mutate(formData);
   };
 

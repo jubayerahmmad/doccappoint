@@ -15,14 +15,23 @@ import { useAuth } from "@/hooks/useAuth";
 import { Select } from "@radix-ui/react-select";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const DoctorDashboard = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const user = useAuth();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, [user, router]);
 
   // Fetch appointments
   // const { data: appointmentsData, isLoading } = useQuery({

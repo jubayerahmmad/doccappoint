@@ -2,7 +2,7 @@
 
 import z from "zod";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Doctor } from "@/types/types";
 import { Calendar, CalendarCheck, Search, User } from "lucide-react";
 import Link from "next/link";
@@ -47,6 +47,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Pagination from "@/components/Pagination";
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 const appointmentSchema = z.object({
   date: z.date({
@@ -62,6 +63,13 @@ const PatientDashboard = () => {
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const user = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user && user?.role !== "PATIENT") {
+      router.push("/login");
+    }
+  }, [user, router]);
 
   const form = useForm<AppointmentForm>({
     resolver: zodResolver(appointmentSchema),

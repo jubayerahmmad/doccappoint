@@ -1,16 +1,27 @@
 "use client";
 
-import { LogIn, Menu, UserPlus, X } from "lucide-react";
+import { LogIn, LogOut, Menu, UserPlus, X } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const user = useAuth();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    toast.success("User Logged Out");
+    router.refresh();
+    router.push("/");
+  };
 
   return (
     <header className="fixed top-0 z-50 w-full p-4">
@@ -42,6 +53,9 @@ const Navbar = () => {
                 Dashboard
               </Button>
             </Link>
+            <Button onClick={handleLogout} className=" text-white">
+              <LogOut className="mr-2 h-4 w-4" /> Log Out
+            </Button>
           </div>
         )}
 
@@ -84,16 +98,21 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-black bg-opacity-80 backdrop-blur-lg p-4 space-y-4 rounded-xl mt-2 mx-4">
           {user && (
-            <Link
-              href={
-                user.role === "DOCTOR"
-                  ? "/doctor/dashboard"
-                  : "/patient/dashboard"
-              }
-              className="block text-white"
-            >
-              Dashboard
-            </Link>
+            <>
+              <Link
+                href={
+                  user.role === "DOCTOR"
+                    ? "/doctor/dashboard"
+                    : "/patient/dashboard"
+                }
+                className="block text-white"
+              >
+                Dashboard
+              </Link>
+              <Button onClick={handleLogout} className="text-white">
+                <LogOut className="mr-2 h-4 w-4" /> Log Out
+              </Button>
+            </>
           )}
 
           {!user && (
