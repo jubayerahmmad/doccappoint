@@ -25,8 +25,13 @@ const DoctorCard = ({ doctor, handleBookAppointment }: Props) => {
         <div className="flex items-center space-x-4">
           <Avatar className="h-16 w-16">
             <AvatarImage
-              src="https://i.ibb.co.com/KX2TZyk/man.png"
+              src={
+                doctor.photo_url !== ""
+                  ? doctor.photo_url
+                  : `https://i.ibb.co.com/KX2TZyk/man.png`
+              }
               alt={doctor.name}
+              className="object-cover"
             />
           </Avatar>
           <div className="flex-1">

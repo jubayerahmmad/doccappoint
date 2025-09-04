@@ -2,7 +2,7 @@
 
 import { LogIn, LogOut, Menu, UserPlus, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { useAuth } from "@/hooks/useAuth";
@@ -11,9 +11,18 @@ import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const user = useAuth();
   const router = useRouter();
+  // Hydration error fix
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   const handleLogout = () => {
     localStorage.removeItem("token");

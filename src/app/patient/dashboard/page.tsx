@@ -39,7 +39,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loader from "@/components/Loader";
 import DoctorCard from "@/components/cards/DoctorCard";
@@ -48,6 +48,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Pagination from "@/components/Pagination";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import axiosInstance from "@/lib/axiosInstance";
+import { toast } from "sonner";
 
 const appointmentSchema = z.object({
   date: z.date({
@@ -55,6 +57,11 @@ const appointmentSchema = z.object({
   }),
 });
 type AppointmentForm = z.infer<typeof appointmentSchema>;
+
+type AppointmentPayload = {
+  doctorId: string;
+  date: string;
+};
 
 const PatientDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -66,7 +73,7 @@ const PatientDashboard = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!user && user?.role !== "PATIENT") {
+    if (!user) {
       router.push("/login");
     }
   }, [user, router]);
@@ -106,14 +113,34 @@ const PatientDashboard = () => {
     Math.ceil((doctorsData?.data?.total || 0) / 9)
   );
 
-  // console.log(doctors);
+  // Book appointment Mutation
+  const bookAppointmentMutation = useMutation({
+    mutationFn: async (payload: AppointmentPayload) => {
+      const res = await axiosInstance.post("/appointments", payload);
+      return res.data;
+    },
+    onSuccess: () => {
+      router.push("/patient/appointments");
+      toast.success("Appoinment Booking Successful");
+      setIsBookingOpen(false);
+    },
+    onError: () => {
+      toast.error("Appoinment Booking failed!");
+      console.error("Appoinment Booking failed");
+      setIsBookingOpen(false);
+    },
+  });
 
   const onSubmit = (data: AppointmentForm) => {
-    console.log(data);
+    const payload: AppointmentPayload = {
+      doctorId: selectedDoctor?.id as string,
+      date: format(data.date, "yyyy-MM-dd"),
+    };
+
+    bookAppointmentMutation.mutate(payload);
   };
 
   const handleBookAppointment = (doctor: Doctor) => {
-    console.log(doctor);
     setSelectedDoctor(doctor);
     setIsBookingOpen(true);
   };
